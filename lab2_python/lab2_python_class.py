@@ -1,9 +1,27 @@
 _next = 0
 
+from datetime import date
+import pickle
+
 def _next_number():
     global _next
     _next +=1
     return _next
+
+class PersistenceAccount(object):
+
+    @staticmethod
+    def serialize(account):
+        with open('bank_account.pkl', 'wb') as f:
+            pickle.dump(account, f)
+        f.closed
+
+    @staticmethod
+    def deserialize():
+        with open('bank_account.pkl', 'rb') as f:
+            account = pickle.load(f)
+        f.closed
+        return account
 
 class BankAccount(object):
     def __str__(self):
@@ -11,8 +29,10 @@ class BankAccount(object):
     def __init__(self, balance = 0):
         self.number = _next_number()
         self.balance = balance
+        self.queue = []
     def deposit(self, amount):
         self.balance += amount
+        self.queue.append(BankTransaction(amount))
     def withdraw(self, amount):
         if self.balance > amount:
             self.balance -= amount
@@ -22,14 +42,36 @@ class BankAccount(object):
         else:
             self.balance *= self.balance * 1.1
     def transfer_from(self, account, amount):
-        account.withdraw(amount)
-        self.deposit(amount)
-        print('success!')
+        if account.balance > amount:
+            account.withdraw(amount)
+            self.deposit(amount)
+            print('success!')
+        else: 
+            print('error: too big amount')
+    def get_transaction(self):
+        for i in range(len(self.queue)):
+            item = self.queue.pop(0)
+            print('when {0} : amount {1}'.format(item.when, item.amount))
+class BankTransaction(object):
+    def __init__(self, amount):
+        self.when = datetime.today()
+        self.amount = amount
+
+    def __del__(self):
+        with open('transaction.txt', 'a') as f:
+            f.write('when {0} : amount {1} \n'.format(self.when, self.amount))
+        f.closed
 
 def test_deposit(account):
    print(account)
    amount = int(input('enter amount to deposit on number {0}:'.format(account.number)))
-   print(account)   
+   print(account)  
+   
+def test_withdraw(account):
+   print(account)
+   amount = int(input('enter amount to deposit on number {0}:'.format(account.number)))
+   print(account)  
+   
 
 if __name__ == '__main__':
     ba1 = BankAccount(100)
@@ -39,8 +81,12 @@ if __name__ == '__main__':
     ba1.transfer_from(ba2, 50)
     print(ba1)
     print(ba2)
-    ba = BankAccount(100)
+
+    ba = BankAccount(200)
     test_deposit(ba)
-    from datetime import date
-    ba1.date = date.today()
-    print(ba1.date)
+    test_withdraw(ba)
+    ba.get_transaction()
+
+    ba3 = BankAccount(100)
+    PersistenceAccount.serialize(ba3)
+    print(PersistenceAccount.deserialize())
