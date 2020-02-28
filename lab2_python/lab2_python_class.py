@@ -1,6 +1,6 @@
 _next = 0
 
-from datetime import date
+
 import pickle
 
 def _next_number():
@@ -22,6 +22,15 @@ class PersistenceAccount(object):
             account = pickle.load(f)
         f.closed
         return account
+
+class BankTransaction(object):
+    def __init__(self, amount):
+        self.when = datetime.today()
+        self.amount = amount
+    def __del__(self):
+        with open('transaction.txt', 'a') as f:
+            f.write('when {0} : amount {1} \n'.format(self.when, self.amount))
+        f.closed
 
 class BankAccount(object):
     def __str__(self):
@@ -52,28 +61,26 @@ class BankAccount(object):
         for i in range(len(self.queue)):
             item = self.queue.pop(0)
             print('when {0} : amount {1}'.format(item.when, item.amount))
-class BankTransaction(object):
-    def __init__(self, amount):
-        self.when = datetime.today()
-        self.amount = amount
-
-    def __del__(self):
-        with open('transaction.txt', 'a') as f:
-            f.write('when {0} : amount {1} \n'.format(self.when, self.amount))
-        f.closed
+    @classmethod
+    def create_bank_account(cls, value):
+        return cls(value)
 
 def test_deposit(account):
    print(account)
    amount = int(input('enter amount to deposit on number {0}:'.format(account.number)))
+   account.deposit(amount)
    print(account)  
    
 def test_withdraw(account):
    print(account)
    amount = int(input('enter amount to deposit on number {0}:'.format(account.number)))
+   account.withdraw(amount)
    print(account)  
    
 
+
 if __name__ == '__main__':
+    from datetime import datetime
     ba1 = BankAccount(100)
     ba2 = BankAccount(100)
     print(ba1)
@@ -82,11 +89,11 @@ if __name__ == '__main__':
     print(ba1)
     print(ba2)
 
-    ba = BankAccount(200)
-    test_deposit(ba)
-    test_withdraw(ba)
-    ba.get_transaction()
+    ba3 = BankAccount(200)
+    test_deposit(ba3)
+    test_withdraw(ba3)
+    ba3.get_transaction()
 
-    ba3 = BankAccount(100)
-    PersistenceAccount.serialize(ba3)
+    ba4 = BankAccount(100)
+    PersistenceAccount.serialize(ba4)
     print(PersistenceAccount.deserialize())
