@@ -11,3 +11,41 @@ when 2020-02-28 12:48:42.162778 : amount 300
 when 2020-02-28 12:50:47.978030 : amount 300 
 when 2020-02-28 12:50:41.635384 : amount 50 
 when 2020-02-28 12:51:32.239792 : amount 0 
+when 2020-03-01 23:30:24.416277 : amount 30 
+when 2020-03-01 23:30:25.602878 : amount 30 
+when 2020-03-01 23:30:34.690372 : amount 30 
+when 2020-03-01 23:30:35.221962 : amount 40 
+when 2020-03-01 23:33:01.413786 : amount 50 
+when 2020-03-01 23:33:04.759717 : amount 40 
+when 2020-03-01 23:33:05.818111 : amount 30 
+when 2020-03-01 23:42:30.603836 : amount 50, type: deposit 
+when 2020-03-01 23:42:31.188872 : amount 50, type: deposit 
+when 2020-03-01 23:42:32.439024 : amount 20, type: withdraw 
+when 2020-03-01 23:43:12.578341 : amount 30, type: deposit 
+when 2020-03-01 23:43:13.247838 : amount 30, type: deposit 
+when 2020-03-01 23:43:13.971243 : amount 20, type: withdraw 
+when 2020-03-01 23:43:11.862843 : amount 50, type: withdraw 
+when 2020-03-01 23:43:11.863339 : amount 50, type: deposit 
+when 2020-03-01 23:43:47.839739 : amount 30, type: deposit 
+when 2020-03-01 23:43:48.845711 : amount 20, type: deposit 
+when 2020-03-01 23:43:49.409298 : amount 50, type: withdraw 
+when 2020-03-02 00:00:45.106043 : amount 50, type: deposit 
+when 2020-03-02 00:00:47.073279 : amount 20, type: deposit 
+when 2020-03-02 00:00:48.186195 : amount 20, type: withdraw 
+when 2020-03-02 00:01:27.787401 : amount 50, type: deposit 
+when 2020-03-02 00:01:28.637685 : amount 20, type: deposit 
+when 2020-03-02 00:01:29.547660 : amount 20, type: withdraw 
+when 2020-03-02 00:03:07.900422 : amount 20, type: deposit 
+when 2020-03-02 00:03:08.736357 : amount 30, type: deposit 
+when 2020-03-02 00:03:09.268095 : amount 40, type: withdraw 
+when 2020-03-02 00:03:06.159602 : amount 50, type: withdraw 
+when 2020-03-02 00:03:06.160098 : amount 50, type: deposit 
+when 2020-03-02 00:04:38.852134 : amount 20, type: deposit 
+when 2020-03-02 00:04:39.814710 : amount 30, type: deposit 
+when 2020-03-02 00:04:40.325070 : amount 40, type: withdraw 
+when 2020-03-02 00:09:17.714833 : amount 20, type: deposit 
+when 2020-03-02 00:09:18.139891 : amount 30, type: deposit 
+when 2020-03-02 00:09:18.628555 : amount 40, type: withdraw 
+when 2020-03-02 00:09:33.928913 : amount 20, type: deposit 
+when 2020-03-02 00:09:34.364505 : amount 30, type: deposit 
+when 2020-03-02 00:09:34.939034 : amount 40, type: withdraw 

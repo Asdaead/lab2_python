@@ -4,13 +4,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>b77b378b-6bed-4813-8865-c348f1c9062b</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>unit_test.py</StartupFile>
+    <StartupFile>lab2_python_class.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>lab2_python</Name>
     <RootNamespace>lab2_python</RootNamespace>
+    <SuppressConfigureTestFrameworkPrompt>true</SuppressConfigureTestFrameworkPrompt>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
