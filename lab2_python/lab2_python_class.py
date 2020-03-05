@@ -35,10 +35,6 @@ class BankTransaction(object):
         self.when = datetime.today()
         self.amount = amount
         self.type = type
-    def __del__(self):
-        with open('transaction.txt', 'a') as f:
-            f.write('when {0} : amount {1}, type: {2} \n'.format(self.when, self.amount, self.type))
-        f.closed
 
 class BankAccount(object):
     def __str__(self):
@@ -74,6 +70,25 @@ class BankAccount(object):
     def create_bank_account(cls, value):
         return cls(value)
 
+class PersonalBankAccount(BankAccount):
+    def __init__(self, balance = 0, name = None):
+        super(PersonalBankAccount, self).__init__(balance)
+        self.name = name
+    def __str__(self):
+        return 'number: {0}, balance: {1}, name: {2}'.format(self.number, self.balance, self.name)
+    def interest(self, rate):
+        self.balance *= (1 + rate)
+
+class OverdrawnBankAccount(PersonalBankAccount):
+    def __init__(self, balance = 0, overdrawn = -1000):
+        super(OverdrawnBankAccount, self).__init__(balance)
+        self.overdrawn = overdrawn
+    def __str__(self):
+        return 'number: {0}, balance: {1}, name: {2}, overdrawn{3}'.format(self.number, self.balance, self.name, self.overdrawn)
+    def withdraw(self, amount):
+        if self.balance - amount > self.overdrawn:
+            balance -= amount
+
 def test_deposit(account):
    print(account)
    amount = int(input('enter amount to deposit on number {0}:'.format(account.number)))
@@ -94,16 +109,12 @@ if __name__ == '__main__':
     print(ba2)
     ba1.transfer_from(ba2, 50)
 
-    print("shelves")
-    ba4 = BankAccount(100)
-    PersistenceAccount.serialize(ba4)
-    print(PersistenceAccount.deserialize())
-    PersistenceAccount.shelve_method(ba4)
+    person = PersonalBankAccount(100, 'Alex')
+    person.interest(.3)
+    print(person)
 
-    ba3 = BankAccount(200)
-    test_deposit(ba3)
-    test_deposit(ba3)
-    test_withdraw(ba3)
-    ba3.get_transaction()
+    oba = OverdrawnBankAccount(100)
+    test_deposit(oba)
+    test_withdraw(oba)
     
  
