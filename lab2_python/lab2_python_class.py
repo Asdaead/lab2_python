@@ -71,23 +71,53 @@ class BankAccount(object):
         return cls(value)
 
 class PersonalBankAccount(BankAccount):
-    def __init__(self, balance = 0, name = None):
+    def __init__(self, balance = 0, name = None, dateDay = 25, percents = .1):
         super(PersonalBankAccount, self).__init__(balance)
         self.name = name
+        self.percents = percents
+        self.dateDay = dateDay
     def __str__(self):
-        return 'number: {0}, balance: {1}, name: {2}'.format(self.number, self.balance, self.name)
-    def interest(self, rate):
-        self.balance *= (1 + rate)
+        datar = datetime.now()
+        datar = datar.replace(day = self.dateDay)
+        return 'number: {0}, balance: {1}, name: {2}, percenst: {3}, date of payment: {4}'.format(self.number, self.balance, self.name, self.percents, datar)
+    def interest(self):
+        self.balance *= (1 + self.percents)
 
 class OverdrawnBankAccount(PersonalBankAccount):
-    def __init__(self, balance = 0, overdrawn = -1000):
+    def __init__(self, balance = 0, overdrawn = -1000, overdrawnPercents = 0.05):
         super(OverdrawnBankAccount, self).__init__(balance)
         self.overdrawn = overdrawn
+        self.overdrawnPercents = overdrawnPercents
     def __str__(self):
-        return 'number: {0}, balance: {1}, name: {2}, overdrawn{3}'.format(self.number, self.balance, self.name, self.overdrawn)
+        return 'number: {0}, balance: {1}, name: {2}, overdrawn: {3}, overdrawnPercents: {4}'.format(self.number, self.balance, self.name, self.overdrawn, self.overdrawnPercents)
     def withdraw(self, amount):
         if self.balance - amount > self.overdrawn:
-            balance -= amount
+            self.balance -= amount
+        self.balance -= self.balance * self.overdrawnPercents
+
+class CheckingAccount(BankAccount):
+    def __init__(self, balance = 0, taxes = 0.01, operationsLimit = 100, count = 0):
+        super(CheckingAccount, self).__init__(balance)
+        self.taxes = taxes
+        self.operationsLimit = operationsLimit
+        self.count = count
+    def __str__(self):
+        return 'number: {0}, balance: {1}, taxes: {2}, operations left: {3}, count: {4}'.format(self.number, self.balance, self.taxes, self.operationsLimit, self.count)
+    def deposit(self, amount):
+        self.balance += amount
+        self.balance -= self.balance * self.taxes
+        self.queue.append(BankTransaction(amount, "deposit"))
+        self.count += 1
+        self.operationsLimit -= 1
+    def withdraw(self, amount):
+        if self.balance > amount:
+            self.balance -= amount
+            self.balance -= self.balance * self.taxes
+            self.queue.append(BankTransaction(amount, "withdraw"))
+            self.count += 1
+            self.operationsLimit -= 1
+        else: 
+            print('error: too big amount')
 
 def test_deposit(account):
    print(account)
@@ -110,11 +140,16 @@ if __name__ == '__main__':
     ba1.transfer_from(ba2, 50)
 
     person = PersonalBankAccount(100, 'Alex')
-    person.interest(.3)
+    person.interest()
     print(person)
 
     oba = OverdrawnBankAccount(100)
-    test_deposit(oba)
-    test_withdraw(oba)
-    
+    oba.withdraw(50)
+    print(oba)    
+
+    ca = CheckingAccount(100)
+    ca.deposit(50)
+    print(ca)
+    ca.withdraw(20)
+    print(ca)
  
